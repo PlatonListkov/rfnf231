@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users List</title>
+</head>
+<body>
+<h2>User List</h2>
+<div th:each="user : ${users}">
+    <a th:href="@{'/users/user?id=' + ${user.id}}" th:text="${user.name}"></a>
+    <br/>
+</div>
+<br/>
+<hr/>
+<form th:action="@{/users/new}" method="get">
+    <button type="submit">Add new user</button>
+</form>
+</body>
+</html>
