@@ -10,50 +10,39 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+
 @Controller
 @RequestMapping("/users")
 public class UsersController {
 
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    public UsersController(
-            UserService userService
-    ) {
+    public UsersController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping()
-    public String getUsersPage(
-            Model model
-    ) {
+    public String getUsersPage(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "users/users-list";
     }
 
     @GetMapping("/user")
-    public String showUserById(
-            @RequestParam("id") long id,
-            Model model
-    ) {
+    public String showUserById(@RequestParam("id") long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
         return "users/user";
     }
 
     @GetMapping("/new")
-    public String newUser(
-            Model model
-    ) {
+    public String newUser(Model model) {
         model.addAttribute("user", new User());
         return "users/form";
     }
 
     @PostMapping()
-    public String saveUser(
-            @ModelAttribute("user") @Valid User user,
-            BindingResult bindingResult,
-            @RequestParam("id") Long id
-    ) {
+    public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+                           @RequestParam("id") Long id) {
         if (bindingResult.hasErrors()) return "users/form";
         if (id != null) user.setId(id);
         userService.saveUser(user);
@@ -61,18 +50,13 @@ public class UsersController {
     }
 
     @GetMapping("/edit")
-    public String editUser(
-            @RequestParam("id") long id,
-            Model model
-    ) {
+    public String editUser(@RequestParam("id") long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
         return "users/form";
     }
 
     @PostMapping("/delete")
-    public String delete(
-            @RequestParam("id") long id
-    ) {
+    public String delete(@RequestParam("id") long id) {
         userService.deleteUser(id);
         return "redirect:/users";
     }
