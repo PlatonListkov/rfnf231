@@ -43,8 +43,12 @@ public class UsersController {
     @PostMapping()
     public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                            @RequestParam("id") Long id) {
-        if (bindingResult.hasErrors()) return "users/form";
-        if (id != null) user.setId(id);
+        if (bindingResult.hasErrors()) {
+            return "users/form";
+        }
+        if (id != null) {
+            user.setId(id);
+        }
         userService.saveUser(user);
         return "redirect:/users";
     }
